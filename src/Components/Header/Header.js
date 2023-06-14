@@ -1,3 +1,5 @@
+import { useLocation, useNavigate } from "react-router-dom";
+import { goToPokedexPage, goToPokemonListPage } from "../../Router/cordinatos";
 import { RightHeaderButton } from "./style";
 import { HeaderConteiner, LeftHeaderButton } from "./style";
 
@@ -6,33 +8,27 @@ const Header = ({ page, setPage }) => {
   let leftButtonText;
   let nextPage;
 
-  switch (page) {
-    case 0:
-      titlePage = "Lista de pokemons";
-      leftButtonText = "Ver minha Pokedex";
-      nextPage = 1;
-      break;
-    case 1:
-      titlePage = "Pokedex";
-      leftButtonText = "Voltar para lista de pokemons";
-      nextPage = 2;
-      break;
-    case 2:
-      titlePage = "Nome do Pokemon";
-      leftButtonText = "Voltar";
-      nextPage = 0;
-      break;
-    default:
-      console.log("Página não existe");
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  if (pathname === "/") {
+    titlePage = "Lista de pokemons";
+    leftButtonText = "Ver minha Pokedex";
+    nextPage = () => goToPokedexPage(navigate);
+  } else if (pathname === "/pokedex") {
+    titlePage = "Pokedex";
+    leftButtonText = "Voltar para lista de pokemons";
+    nextPage = () => goToPokemonListPage(navigate);
+  } else if (pathname.includes("/detalhes")) {
+    titlePage = "Nome do Pokemon";
+    leftButtonText = "Voltar";
+    nextPage = () => goToPokemonListPage(navigate);
   }
 
   return (
     <HeaderConteiner>
-      <LeftHeaderButton onClick={() => setPage(nextPage)}>
-        {leftButtonText}
-      </LeftHeaderButton>
+      <LeftHeaderButton onClick={nextPage}>{leftButtonText}</LeftHeaderButton>
       <h1>{titlePage}</h1>
-      {page === 2 ? (
+      {pathname.includes("/detalhes/") ? (
         <RightHeaderButton>Adicionar / Remover da Pokedex</RightHeaderButton>
       ) : (
         <></>

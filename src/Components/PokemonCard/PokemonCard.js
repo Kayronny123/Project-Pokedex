@@ -5,8 +5,11 @@ import {
   PokeImg
 } from "./style";
 import ditto from "../../../public/assets/ditto.png";
+import { useNavigate } from "react-router-dom";
+import { goToPokemonDetailPage } from "../../Router/cordinatos";
 
 const PokemonCard = () => {
+  const navigate = useNavigate();
   return (
     <PokeCardContainer>
       <ImgContainer>
@@ -14,7 +17,9 @@ const PokemonCard = () => {
       </ImgContainer>
       <ButtonsContainer>
         <button>Adicionar</button>
-        <button>Ver Detalhes</button>
+        <button onClick={() => goToPokemonDetailPage(navigate)}>
+          Ver Detalhes
+        </button>
       </ButtonsContainer>
     </PokeCardContainer>
   );
