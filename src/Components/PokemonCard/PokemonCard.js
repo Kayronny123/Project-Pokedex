@@ -4,16 +4,18 @@ import {
   PokeCardContainer,
   PokeImg
 } from "./style";
-import ditto from "../../../public/assets/ditto.png";
 import { useNavigate } from "react-router-dom";
 import { goToPokemonDetailPage } from "../../Router/cordinatos";
 
-const PokemonCard = () => {
+const PokemonCard = ({ pokeItem }) => {
   const navigate = useNavigate();
   return (
     <PokeCardContainer>
       <ImgContainer>
-        <PokeImg src={ditto} alt="Imagem de ditto" />
+        <PokeImg
+          src={pokeItem.sprites.front_default}
+          alt={`Imagem do pokemon ${pokeItem.name}`}
+        />
       </ImgContainer>
       <ButtonsContainer>
         <button>Adicionar</button>
