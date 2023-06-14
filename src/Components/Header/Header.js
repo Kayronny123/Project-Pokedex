@@ -1,3 +1,4 @@
+import { RightHeaderButton } from "./style";
 import { HeaderConteiner, LeftHeaderButton } from "./style";
 
 const Header = ({ page, setPage }) => {
@@ -14,7 +15,7 @@ const Header = ({ page, setPage }) => {
     case 1:
       titlePage = "Pokedex";
       leftButtonText = "Voltar para lista de pokemons";
-      nextPage = 0;
+      nextPage = 2;
       break;
     case 2:
       titlePage = "Nome do Pokemon";
@@ -31,6 +32,11 @@ const Header = ({ page, setPage }) => {
         {leftButtonText}
       </LeftHeaderButton>
       <h1>{titlePage}</h1>
+      {page === 2 ? (
+        <RightHeaderButton>Adicionar / Remover da Pokedex</RightHeaderButton>
+      ) : (
+        <></>
+      )}
     </HeaderConteiner>
   );
 };
