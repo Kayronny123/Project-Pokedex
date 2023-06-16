@@ -4,11 +4,12 @@ import {
   PokeCardContainer,
   PokeImg
 } from "./style";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { goToPokemonDetailPage } from "../../Router/cordinatos";
 
-const PokemonCard = ({ pokeItem }) => {
+const PokemonCard = ({ pokeItem, addPokemon, removePokemon }) => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   return (
     <PokeCardContainer>
       <ImgContainer>
@@ -18,7 +19,11 @@ const PokemonCard = ({ pokeItem }) => {
         />
       </ImgContainer>
       <ButtonsContainer>
-        <button>Adicionar</button>
+        {pathname === "/" ? (
+          <button onClick={() => addPokemon(pokeItem)}>Adicionar</button>
+        ) : (
+          <button onClick={() => removePokemon(pokeItem.name)}>Remover</button>
+        )}
         <button onClick={() => goToPokemonDetailPage(navigate, pokeItem.name)}>
           Ver Detalhes
         </button>
