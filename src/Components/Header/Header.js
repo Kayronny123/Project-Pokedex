@@ -1,15 +1,26 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { getPokemonByName } from "../../api/request";
 import { goToPokedexPage, goToPokemonListPage } from "../../Router/cordinatos";
 import { RightHeaderButton } from "./style";
 import { HeaderConteiner, LeftHeaderButton } from "./style";
 
-const Header = ({ page, setPage }) => {
+const Header = ({ pokedex, setPokedex, removePokemon }) => {
   let titlePage;
   let leftButtonText;
   let nextPage;
-
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const pokeName = pathname.split("/")[2];
+
+  const isPokemonInPokedex = pokedex.find(
+    (pokeItem) => pokeItem.name === pokeName
+  );
+  const addPokedex = (name) => {
+    getPokemonByName(name, (pokeData) => {
+      setPokedex([...pokedex, pokeData]);
+    });
+  };
+
   if (pathname === "/") {
     titlePage = "Lista de pokemons";
     leftButtonText = "Ver minha Pokedex";
@@ -19,7 +30,7 @@ const Header = ({ page, setPage }) => {
     leftButtonText = "Voltar para lista de pokemons";
     nextPage = () => goToPokemonListPage(navigate);
   } else if (pathname.includes("/detalhes")) {
-    titlePage = pathname.split("/")[2];
+    titlePage = pokeName;
     leftButtonText = "Voltar";
     nextPage = () => goToPokemonListPage(navigate);
   }
@@ -28,11 +39,16 @@ const Header = ({ page, setPage }) => {
     <HeaderConteiner>
       <LeftHeaderButton onClick={nextPage}>{leftButtonText}</LeftHeaderButton>
       <h1>{titlePage}</h1>
-      {pathname.includes("/detalhes/") ? (
-        <RightHeaderButton>Adicionar / Remover da Pokedex</RightHeaderButton>
-      ) : (
-        <></>
-      )}
+      {pathname.includes("/detalhes/") &&
+        (isPokemonInPokedex ? (
+          <RightHeaderButton onClick={() => removePokemon(pokeName)}>
+            Remover da Pokedex
+          </RightHeaderButton>
+        ) : (
+          <RightHeaderButton onClick={() => addPokedex(pokeName)}>
+            Adicionar a Pokedex
+          </RightHeaderButton>
+        ))}
     </HeaderConteiner>
   );
 };
