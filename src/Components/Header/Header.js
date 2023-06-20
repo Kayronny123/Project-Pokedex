@@ -1,16 +1,20 @@
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getPokemonByName } from "../../api/request";
+import { GlobalStateContext } from "../../Global/GlobalStateContext";
 import { goToPokedexPage, goToPokemonListPage } from "../../Router/cordinatos";
 import { RightHeaderButton } from "./style";
 import { HeaderConteiner, LeftHeaderButton } from "./style";
 
-const Header = ({ pokedex, setPokedex, removePokemon }) => {
+const Header = () => {
   let titlePage;
   let leftButtonText;
   let nextPage;
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const pokeName = pathname.split("/")[2];
+
+  const { pokedex, setPokedex, removePokemon } = useContext(GlobalStateContext);
 
   const isPokemonInPokedex = pokedex.find(
     (pokeItem) => pokeItem.name === pokeName
