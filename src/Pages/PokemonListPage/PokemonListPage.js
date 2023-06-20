@@ -6,7 +6,7 @@ import { PokemonListContainer } from "./style";
 const PokemonListPage = () => {
   const [pokemon, setPokemon] = useState([]);
 
-  const { pokedex, setPokedex, addPokemon } = useContext(GlobalStateContext);
+  const { pokedex, addPokemon } = useContext(GlobalStateContext);
 
   useEffect(() => {
     getAllPokemons(setPokemon);
