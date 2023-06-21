@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { getAllPokemons } from "../../api/request";
 import PokemonCard from "../../Components/PokemonCard/PokemonCard";
 import { GlobalStateContext } from "../../Global/GlobalStateContext";
-import { PokemonListContainer } from "./style";
+import { PokemonListContainer, Title, SectionContainer } from "./style";
 const PokemonListPage = () => {
   const [pokemon, setPokemon] = useState([]);
 
@@ -17,16 +17,19 @@ const PokemonListPage = () => {
 
   return (
     <PokemonListContainer>
-      {pokemonFilter.map((pokeItem) => {
-        return (
-          <PokemonCard
-            key={pokeItem.id}
-            pokeItem={pokeItem}
-            pokedex={pokedex}
-            addPokemon={addPokemon}
-          />
-        );
-      })}
+      <Title>Todos Pokemons</Title>
+      <SectionContainer>
+        {pokemonFilter.map((pokeItem) => {
+          return (
+            <PokemonCard
+              key={pokeItem.id}
+              pokeItem={pokeItem}
+              pokedex={pokedex}
+              addPokemon={addPokemon}
+            />
+          );
+        })}
+      </SectionContainer>
     </PokemonListContainer>
   );
 };
