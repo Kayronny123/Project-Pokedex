@@ -7,13 +7,22 @@ import {
   ImageContainer,
   ImgWrapper,
   MovesContainer,
+  PokeballImg,
   PokeInfoContainer,
   StateContainer,
   TitleContainer,
   TypeAndMoveContainer,
   TypeContainer,
-  TypeImg
+  TypeImg,
+  PokeImg,
+  ProgessContainer,
+  ProgessBar,
+  PStatsName,
+  PStatsNumber,
+  ProgressDiv,
+  ContainerMainDetail
 } from "./style";
+import pokebola from "../../../public/assets/pokebola.png";
 
 const PokemonDetailPage = () => {
   const [pokemon, setPokemon] = useState({});
@@ -27,43 +36,47 @@ const PokemonDetailPage = () => {
     pokemonType = returnBackgroundByType(pokemon.types[0].type.name);
     pokemonId =
       pokemon.id.toString().length === 1 ? `0${pokemon.id}` : pokemon.id;
+    pokemonName = pokemon.name[0].toUpperCase() + pokemon.name.substring(1);
   }
 
   useEffect(() => {
     getPokemonByName(nome, setPokemon);
   }, []);
-  const ChangeFirstName = (name) => {
-    return name[0].toUpperCase() + name.substring(1);
-  };
 
   return (
-    <>
+    <ContainerMainDetail>
       <PokeInfoContainer colorType={pokemonType}>
         <ImageContainer>
           <ImgWrapper src={pokemon.sprites?.front_default} />
           <ImgWrapper src={pokemon.sprites?.back_default} />
         </ImageContainer>
         <StateContainer>
-          <TitleContainer>
-            Poderes
-            {pokemon.stats?.map((pokeItem) => {
+          <TitleContainer>Base stats </TitleContainer>
+          <ProgessContainer>
+            {pokemon.stats?.map((pokeItem, index) => {
               return (
-                <p>
-                  <strong>{pokeItem.stat.name}</strong>:{pokeItem.base_stat}
-                </p>
+                <section>
+                  <PStatsName key={index}>
+                    <strong>{pokeItem.stat.name}</strong>:
+                  </PStatsName>
+                  <PStatsNumber>{pokeItem.base_stat}</PStatsNumber>
+                  <ProgressDiv>
+                    <ProgessBar widthBar={pokeItem.base_stat}></ProgessBar>
+                  </ProgressDiv>
+                </section>
               );
             })}
-          </TitleContainer>
+          </ProgessContainer>
         </StateContainer>
+        <PokeImg
+          src={pokemon.sprites?.other["official-artwork"].front_default}
+          alt={`Imagem do pokemon ${pokemon.name}`}
+        />
+        <PokeballImg src={pokebola} />
         <TypeAndMoveContainer>
           <TypeContainer>
-            <p>
-              #
-              {pokemon && pokemon.id && pokemon.id.toString().length === 1
-                ? `0${pokemon.id}`
-                : pokemon.id}
-            </p>
-            <h1>{ChangeFirstName(pokemon.name)}</h1>
+            <p>#{pokemonId}</p>
+            <h1>{pokemonName}</h1>
             <div>
               {pokemon.types?.map((pokeItem, index) => {
                 return (
@@ -72,21 +85,22 @@ const PokemonDetailPage = () => {
               })}
             </div>
           </TypeContainer>
+
+          <MovesContainer>
+            <TitleContainer>Moves</TitleContainer>
+            {pokemon.moves?.map((pokeItem, index) => {
+              return (
+                index < 5 && (
+                  <p key={index}>
+                    <strong>{pokeItem.move.name}</strong>
+                  </p>
+                )
+              );
+            })}
+          </MovesContainer>
         </TypeAndMoveContainer>
-        <MovesContainer>
-          <TitleContainer>Principais Ataques</TitleContainer>
-          {pokemon.moves?.map((pokeItem, index) => {
-            return (
-              index < 5 && (
-                <p key={index}>
-                  <strong>{pokeItem.move.name}</strong>
-                </p>
-              )
-            );
-          })}
-        </MovesContainer>
       </PokeInfoContainer>
-    </>
+    </ContainerMainDetail>
   );
 };
 export default PokemonDetailPage;
