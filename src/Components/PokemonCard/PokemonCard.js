@@ -19,6 +19,10 @@ const PokemonCard = ({ pokeItem, addPokemon, removePokemon }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
+  const ChangeFirstName = (name) => {
+    return name[0].toUpperCase() + name.substring(1);
+  };
+
   return (
     <PokeCardContainer
       returnBackgroundByType={returnBackgroundByType(
@@ -26,8 +30,13 @@ const PokemonCard = ({ pokeItem, addPokemon, removePokemon }) => {
       )}
     >
       <InfoPoke>
-        <p>#0{pokeItem.id}</p>
-        <h1>{pokeItem.name}</h1>
+        <p>
+          #
+          {pokeItem.id.toString().length === 1
+            ? `0${pokeItem.id}`
+            : pokeItem.id}
+        </p>
+        <h1>{ChangeFirstName(pokeItem.name)}</h1>
         <div>
           {pokeItem.types.map((typeItem, index) => {
             return (

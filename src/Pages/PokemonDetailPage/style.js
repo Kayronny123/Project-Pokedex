@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
-export const PokeInfoContainer = styled.div`
+export const PokeInfoContainer = styled.main`
   height: 80vh;
   margin: 20px 10vw;
   display: flex;
   justify-content: space-evenly;
+  background-color: ${(props) => props.colorType};
+  border-radius: 10px;
 `;
 
 export const ImageContainer = styled.div`
@@ -17,6 +19,11 @@ export const ImageContainer = styled.div`
 export const ImgWrapper = styled.img`
   height: 25vh;
   background: #f1f1f1;
+`;
+export const TypeImg = styled.img`
+  height: 30px;
+  width: 91px;
+  margin: 7px;
 `;
 export const StateContainer = styled.div`
   background: #f1f1f1;
@@ -43,7 +50,8 @@ export const TypeAndMoveContainer = styled.div`
 `;
 
 export const TypeContainer = styled.div`
-  background: #f1f1f1;
+  display: flex;
+  flex-direction: column;
   height: 10%;
   display: flex;
   justify-content: space-around;
