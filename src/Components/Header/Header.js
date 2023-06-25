@@ -18,12 +18,20 @@ const Header = () => {
   const navigate = useNavigate();
   const pokeName = pathname.split("/")[2];
 
-  const { pokedex, setPokedex, removePokemon } = useContext(GlobalStateContext);
+  const {
+    pokedex,
+    setPokedex,
+    removePokemon,
+    setIsOpen,
+    setControlModal
+  } = useContext(GlobalStateContext);
 
   const isPokemonInPokedex = pokedex.find(
     (pokeItem) => pokeItem.name === pokeName
   );
   const addPokedex = (name) => {
+    setIsOpen(true);
+    setControlModal(1);
     getPokemonByName(name, (pokeData) => {
       setPokedex([...pokedex, pokeData]);
     });

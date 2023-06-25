@@ -3,18 +3,27 @@ import { GlobalStateContext } from "./GlobalStateContext";
 
 const GlobalState = ({ children }) => {
   const [pokedex, setPokedex] = useState([]);
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [controlModal, setControlModal] = useState(1);
   const addPokemon = (pokemon) => {
+    setIsOpen(true);
+    setControlModal(1);
     setPokedex([...pokedex, pokemon]);
   };
   const removePokemon = (pokeName) => {
+    setIsOpen(true);
+    setControlModal(2);
     setPokedex(pokedex.filter((pokeItem) => pokeItem.name !== pokeName));
   };
   const data = {
     pokedex,
     setPokedex,
     addPokemon,
-    removePokemon
+    removePokemon,
+    isOpen,
+    setIsOpen,
+    setControlModal,
+    controlModal
   };
   return (
     <GlobalStateContext.Provider value={data}>
